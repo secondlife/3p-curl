@@ -1,29 +1,28 @@
 
 0.  Pre-Checkin Checklist
 
-    Performed from top of repo, default branch, head:
+    Performed from top of repo, master branch, head:
 
-    [ ]  Is tag 'current' at or near head of 'vendor'?
+    [ ]  Is tag 'current' at the head of 'vendor'?
 
-         hg heads
-         hg tags
+         git tag --points-at vendor
 
-    [ ]  Expected differences between vendor and default?  Very
+    [ ]  Expected differences between vendor and master?  Very
          little of the original source should be modified.
 
-         hg diff -rcurrent curl
+         git diff master..vendor --compact-summary
 
     [ ]  Are the 'vendor' and 'default' branch source directories
          'curl' and not 'curl-<version>'?
 
     [ ]  Is curlbuild.h identical to distribution?
 
-         hg diff -rcurrent curl/include/curl/curlbuild.h
+         git diff master..vendor curl/include/curl/curlbuild.h
 
     [ ]  Is Makefile identical to distribution?  Not strictly
          required but a good idea.
 
-         hg diff -rcurrent curl/Makefile
+         git diff master..vendor curl/Makefile
 
     [ ]  Examine the build logs to make certain that the data type
          primitives and their formats are in agreement.  Good 
