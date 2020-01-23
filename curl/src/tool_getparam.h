@@ -7,7 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2017, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 1998 - 2019, Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -41,6 +41,8 @@ typedef enum {
   PARAM_NO_MEM,
   PARAM_NEXT_OPERATION,
   PARAM_NO_PREFIX,
+  PARAM_NUMBER_TOO_LARGE,
+  PARAM_NO_NOT_BOOLEAN,
   PARAM_LAST
 } ParameterError;
 
@@ -61,4 +63,3 @@ ParameterError parse_args(struct GlobalConfig *config, int argc,
                           argv_item_t argv[]);
 
 #endif /* HEADER_CURL_TOOL_GETPARAM_H */
-

@@ -679,6 +679,10 @@ LINK32=link.exe
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\..\..\..\lib\curl_ctype.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\..\lib\nonblock.c
 # End Source File
 # Begin Source File
@@ -747,6 +751,10 @@ SOURCE=..\..\..\..\src\tool_easysrc.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\..\src\tool_filetime.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\..\src\tool_formparse.c
 # End Source File
 # Begin Source File
@@ -787,10 +795,6 @@ SOURCE=..\..\..\..\src\tool_metalink.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\..\src\tool_mfiles.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\..\src\tool_msgs.c
 # End Source File
 # Begin Source File
@@ -812,6 +816,10 @@ SOURCE=..\..\..\..\src\tool_paramhlp.c
 # Begin Source File
 
 SOURCE=..\..\..\..\src\tool_parsecfg.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\..\src\tool_progress.c
 # End Source File
 # Begin Source File
 
@@ -852,6 +860,10 @@ SOURCE=..\..\..\..\src\tool_xattr.c
 # Begin Source File
 
 SOURCE=..\..\..\..\lib\config-win32.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\..\lib\curl_ctype.h
 # End Source File
 # Begin Source File
 
@@ -927,6 +939,10 @@ SOURCE=..\..\..\..\src\tool_easysrc.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\..\src\tool_filetime.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\..\src\tool_formparse.h
 # End Source File
 # Begin Source File
@@ -967,10 +983,6 @@ SOURCE=..\..\..\..\src\tool_metalink.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\..\src\tool_mfiles.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\..\src\tool_msgs.h
 # End Source File
 # Begin Source File
@@ -992,6 +1004,10 @@ SOURCE=..\..\..\..\src\tool_paramhlp.h
 # Begin Source File
 
 SOURCE=..\..\..\..\src\tool_parsecfg.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\..\src\tool_progress.h
 # End Source File
 # Begin Source File
 

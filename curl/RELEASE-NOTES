@@ -1,132 +1,146 @@
-Curl and libcurl 7.54.1
+curl and libcurl 7.68.0
 
- Public curl releases:         166
- Command line options:         207
- curl_easy_setopt() options:   245
- Public functions in libcurl:  61
- Contributors:                 1571
+ Public curl releases:         188
+ Command line options:         229
+ curl_easy_setopt() options:   269
+ Public functions in libcurl:  82
+ Contributors:                 2088
 
 This release includes the following changes:
 
- o curl: show the libcurl release date in --version output [32]
+ o TLS: add BearSSL vtls implementation [37]
+ o XFERINFOFUNCTION: support CURL_PROGRESSFUNC_CONTINUE [36]
+ o curl: add --etag-compare and --etag-save [31]
+ o curl: add --parallel-immediate [29]
+ o multi: add curl_multi_wakeup() [38]
+ o openssl: CURLSSLOPT_NO_PARTIALCHAIN can disable partial cert chains [45]
 
 This release includes the following bugfixes:
 
- o CVE-2017-9502: file: URL buffer overflow [65]
- o openssl: fix memory leak in servercert
- o tests: remove the html and PDF versions from the tarball
- o mbedtls: enable NTLM (& SMB) even if MD4 support is unavailable
- o typecheck-gcc: handle function pointers properly [1]
- o llist: no longer uses malloc [2]
- o gnutls: removed some code when --disable-verbose is configured
- o lib: fix maybe-uninitialized warnings
- o multi: clarify condition in curl_multi_wait [3]
- o schannel: Don't treat encrypted partial record as pending data [4]
- o configure: fix the -ldl check for openssl, add -lpthread check [5]
- o configure: accept -Og and -Ofast GCC flags [6]
- o Makefile: avoid use of GNU-specific form of $< [7]
- o if2ip: fix -Wcast-align warning
- o configure: stop prepending to LDFLAGS, CPPFLAGS [8]
- o curl: set a 100K buffer size by default [9]
- o typecheck-gcc: fix _curl_is_slist_info [10]
- o nss: do not leak PKCS #11 slot while loading a key [11]
- o nss: load libnssckbi.so if no other trust is specified [12]
- o examples: ftpuploadfrommem.c [13]
- o url: declare get_protocol_family() static [14]
- o examples/cookie_interface.c: changed to example.com
- o test1443: test --remote-time
- o curl: use utimes instead of obsolescent utime when available
- o url: fixed a memory leak on OOM while setting CURLOPT_BUFFERSIZE
- o curl_rtmp: fix missing-variable-declarations warnings
- o tests: fixed OOM handling of unit tests to abort test
- o curl_setup: Ensure no more than one IDN lib is enabled [15]
- o tool: Fix missing prototype warnings for CURL_DOES_CONVERSIONS [16]
- o CURLOPT_BUFFERSIZE: 1024 bytes is now the minimum size [17]
- o curl: non-boolean command line args reject --no- prefixes [18]
- o telnet: Write full buffer instead of byte-by-byte [19]
- o typecheck-gcc: add missing string options [20]
- o typecheck-gcc: add support for CURLINFO_SOCKET [21]
- o opt man pages: they all have examples now
- o curl_setup_once: use SEND_QUAL_ARG2 for swrite [22]
- o test557: set a known good numeric locale
- o schannel: return a more specific error code for SEC_E_UNTRUSTED_ROOT
- o tests/server: make string literals const
- o runtests: use -R for random order [23]
- o unit1305: fix compiler warning
- o curl_slist_append.3: clarify a NULL input creates a new list
- o tests/server: run checksrc by default in debug-builds
- o tests: fix -Wcast-qual warnings
- o runtests.pl: simplify the datacheck read section
- o curl: remove --environment and tool_writeenv.c [24]
- o buildconf: fix hang on IRIX [25]
- o tftp: silence bad-function-cast warning
- o asyn-thread: fix unused macro warnings
- o tool_parsecfg: fix -Wcast-qual warning
- o sendrecv: fix MinGW-w64 warning
- o test537: use correct variable type [26]
- o rand: treat fake entropy the same regardless of endianness [27]
- o curl: generate the --help output [28]
- o tests: removed redundant --trace-ascii arguments
- o multi: assign IDs to all timers and make each timer singleton
- o multi: use a fixed array of timers instead of malloc [29]
- o mbedtls: Support server renegotiation request [30]
- o pipeline: fix mistakenly trying to pipeline POSTs [31]
- o lib510: don't write past the end of the buffer if it's too small
- o CURLOPT_HTTPPROXYTUNNEL.3: clarify, add example
- o SecureTransport/DarwinSSL: Implement public key pinning [33]
- o curl.1: clarify --config
- o curl_sasl: fix build error with CURL_DISABLE_CRYPTO_AUTH + USE_NTLM [34]
- o darwinssl: Fix exception when processing a client-side certificate [35]
- o curl.1: mention --oauth2-bearer's <token> argument
- o mkhelp.pl: do not add current time into curl binary [36]
- o asiohiper.cpp / evhiperfifo.c: deal with negative timerfunction input [37]
- o ssh: fix memory leak in disconnect due to timeout [38]
- o tests: stabilize test 1034 [39]
- o cmake: auto detection of CURL_CA_BUNDLE/CURL_CA_PATH [40]
- o assert: avoid, use DEBUGASSERT instead [41]
- o LDAP: using ldap_bind_s on Windows with methods [42]
- o redirect: store the "would redirect to" URL when max redirs is reached [43]
- o winbuild: fix the nghttp2 build [44]
- o examples: fix -Wimplicit-fallthrough warnings
- o time: fix type conversions and compiler warnings [45]
- o mbedtls: fix variable shadow warning
- o test557: fix ubsan runtime error due to int left shift [46]
- o transfer: init the infilesize from the postfields [47]
- o docs: clarify NO_PROXY further [48]
- o build-wolfssl: Sync config with wolfSSL 3.11
- o curl-compilers.m4: enable -Wshift-sign-overflow for clang [49]
- o example/externalsocket.c: make it use CLOSESOCKETFUNCTION too
- o lib574.c: use correct callback proto
- o lib583: fix compiler warning
- o curl-compilers.m4: fix compiler_num for clang [50]
- o typecheck-gcc.h: separate getinfo slist checks from other pointers [51]
- o typecheck-gcc.h: check CURLINFO_TLS_SSL_PTR and CURLINFO_TLS_SESSION
- o typecheck-gcc.h: check CURLINFO_CERTINFO [52]
- o build: provide easy code coverage measuring [53]
- o test1537: dedicated tests of the URL (un)escape API calls [54]
- o curl_endian: remove unused functions [55]
- o test1538: verify the libcurl strerror API calls
- o MD(4|5): silence cast-align clang warning
- o dedotdot: fixed output for ".." and "." only input [56]
- o cyassl: define build macros before including ssl.h [57]
- o updatemanpages.pl: error out on too old git version
- o curl_sasl: fix unused-variable warning
- o x509asn1: fix implicit-fallthrough warning with GCC 7
- o libtest: fix implicit-fallthrough warnings with GCC 7
- o BINDINGS: add Ring binding [58]
- o curl_ntlm_core: pass unsigned char to toupper
- o test1262: verify ftp download with -z for "if older than this"
- o test1521: test all curl_easy_setopt options [59]
- o typecheck-gcc: allow CURLOPT_STDERR to be NULL too
- o metalink: remove unused printf() argument
- o file: make speedcheck use current time for checks [60]
- o configure: fix link with librtmp when specifying path [61]
- o examples/multi-uv.c: fix deprecated symbol [62]
- o cmake: Fix inconsistency regarding mbed TLS include directory [63]
- o setopt: check CURLOPT_ADDRESS_SCOPE option range
- o gitignore: ignore all vim swap files [64]
- o urlglob: fix division by zero
- o libressl: OCSP and intermediate certs workaround no longer needed [66]
+ o CVE-2019-15601: file: on Windows, refuse paths that start with \\ [106]
+ o Azure Pipelines: add several builds
+ o CMake: add support for building with the NSS vtls backend [43]
+ o CURL-DISABLE: initial docs for the CURL_DISABLE_* defines [19]
+ o CURLOPT_HEADERFUNCTION.3: Document that size is always 1 [100]
+ o CURLOPT_QUOTE.3: fix typos [78]
+ o CURLOPT_READFUNCTION.3: fix the example [107]
+ o CURLOPT_URL.3: "curl supports SMB version 1 (only)"
+ o CURLOPT_VERBOSE.3: see also ERRORBUFFER
+ o HISTORY: added cmake, HTTP/3 and parallel downloads with curl
+ o HISTORY: the SMB(S) support landed in 2014
+ o INSTALL.md: provide Android build instructions [10]
+ o KNOWN_BUGS: Connection information when using TCP Fast Open [85]
+ o KNOWN_BUGS: LDAP on Windows doesn't work correctly [86]
+ o KNOWN_BUGS: TLS session cache doesn't work with TFO [56]
+ o OPENSOCKETFUNCTION.3: correct the purpose description [48]
+ o TrackMemory tests: always remove CR before LF [111]
+ o altsvc: bump to h3-24 [6]
+ o altsvc: make the save function ignore NULL filenames [67]
+ o build: Disable Visual Studio warning "conditional expression is constant" [49]
+ o build: fix for CURL_DISABLE_DOH [2]
+ o checksrc.bat: Add a check for vquic and vssh directories [40]
+ o checksrc: repair the copyrightyear check [25]
+ o cirrus-ci: enable clang sanitizers on freebsd 13 [60]
+ o cirrus: Drop the FreeBSD 10.4 build
+ o config-win32: cpu-machine-OS for Windows on ARM [13]
+ o configure: avoid unportable `==' test(1) operator [1]
+ o configure: enable IPv6 support without `getaddrinfo` [44]
+ o configure: fix typo in help text [4]
+ o conncache: CONNECT_ONLY connections assumed always in-use [71]
+ o conncache: fix multi-thread use of shared connection cache [61]
+ o copyrights: fix copyright year range [25]
+ o create_conn: prefer multiplexing to using new connections [76]
+ o curl -w: handle a blank input file correctly [105]
+ o curl.h: add two missing defines for "pre ISO C" compilers [75]
+ o curl/parseconfig: fix mem-leak [81]
+ o curl/parseconfig: use curl_free() to free memory allocated by libcurl [80]
+ o curl: cleanup multi handle on failure [103]
+ o curl: fix --upload-file . hangs if delay in STDIN [35]
+ o curl: fix -T globbing [16]
+ o curl: improved cleanup in upload error path [69]
+ o curl: make a few char pointers point to const char instead [95]
+ o curl: properly free mimepost data [104]
+ o curl: show better error message when no homedir is found [47]
+ o curl: show error for --http3 if libcurl lacks support [108]
+ o curl_setup_once: consistently use WHILE_FALSE in macros [54]
+ o define: remove HAVE_ENGINE_LOAD_BUILTIN_ENGINES, not used anymore [83]
+ o docs: Change 'experiemental' to 'experimental' [30]
+ o docs: TLS SRP doesn't work with TLS 1.3 [87]
+ o docs: fix several typos [62]
+ o docs: mention CURL_MAX_INPUT_LENGTH restrictions [109]
+ o doh: improved both encoding and decoding [11]
+ o doh: make it behave when built without proxy support [68]
+ o examples/postinmemory.c: Call curl_global_cleanup always [101]
+ o examples/url2file.c: corrected erroneous comment [102]
+ o examples: add multi-poll.c [14]
+ o global_init: undo the "intialized" bump in case of failure [52]
+ o hostip: suppress compiler warning [64]
+ o http_ntlm: Remove duplicate NSS initialisation [55]
+ o lib: Move lib/ssh.h -> lib/vssh/ssh.h [9]
+ o lib: fix compiler warnings with `CURL_DISABLE_VERBOSE_STRINGS` [93]
+ o lib: fix warnings found when porting to NuttX [99]
+ o lib: remove ASSIGNWITHINCONDITION exceptions, use our code style [84]
+ o lib: remove erroneous +x file permission on some c files [99]
+ o libssh2: add support for ECDSA and ed25519 knownhost keys [89]
+ o multi.h: remove INITIAL_MAX_CONCURRENT_STREAMS from public header [110]
+ o multi: free sockhash on OOM [63]
+ o multi_poll: avoid busy-loop when called without easy handles attached [15]
+ o ngtcp2: Support the latest update key callback type [92]
+ o ngtcp2: fix thread-safety bug in error-handling [33]
+ o ngtcp2: free used resources on disconnect [7]
+ o ngtcp2: handle key updates as ngtcp2 master branch tells us [8]
+ o ngtcp2: increase QUIC window size when data is consumed [12]
+ o ngtcp2: use overflow buffer for extra HTTP/3 data [5]
+ o ntlm: USE_WIN32_CRYPTO check removed to get USE_NTLM2SESSION set [3]
+ o ntlm_wb: fix double-free in OOM [65]
+ o openssl: Revert to less sensitivity for SYSCALL errors [26]
+ o openssl: improve error message for SYSCALL during connect [27]
+ o openssl: prevent recursive function calls from ctx callbacks [18]
+ o openssl: retrieve reported LibreSSL version at runtime [50]
+ o openssl: set X509_V_FLAG_PARTIAL_CHAIN by default [46]
+ o parsedate: offer a getdate_capped() alternative [53]
+ o pause: avoid updating socket if done was already called [22]
+ o projects: Fix Visual Studio projects SSH builds [41]
+ o projects: Fix Visual Studio wolfSSL configurations
+ o quiche: reject HTTP/3 headers in the wrong order [17]
+ o remove_handle: clear expire timers after multi_done() [20]
+ o runtests: --repeat=[num] to repeat tests [91]
+ o runtests: introduce --shallow to reduce huge torture tests [70]
+ o schannel: fix --tls-max for when min is --tlsv1 or default [39]
+ o setopt: Fix ALPN / NPN user option when built without HTTP2 [42]
+ o strerror: Add Curl_winapi_strerror for Win API specific errors [51]
+ o strerror: Fix an error looking up some Windows error strings
+ o strerror: Fix compiler warning "empty expression" [79]
+ o system.h: fix for MCST lcc compiler [23]
+ o test/sws: search for "Testno:" header unconditionally if no testno [73]
+ o test1175: verify symbols-in-versions and libcurl-errors.3 in sync [28]
+ o test1270: a basic -w redirect_url test [82]
+ o test1456: remove the use of a fixed local port number [77]
+ o test1558: use double slash after file: [21]
+ o test1560: require IPv6 for IPv6 aware URL parsing [24]
+ o tests/lib1557: fix mem-leak in OOM [66]
+ o tests/lib1559: fix mem-leak in OOM [66]
+ o tests/lib1591: free memory properly on OOM, in the trailers callback [90]
+ o tests/unit1607: fix mem-leak in OOM [66]
+ o tests/unit1609: fix mem-leak in OOM [66]
+ o tests/unit1620: fix bad free in OOM [66]
+ o tests: Change NTLM tests to require SSL [96]
+ o tests: Fix bounce requests with truncated writes [94]
+ o tests: fix build with `CURL_DISABLE_DOH` [64]
+ o tests: fix permissions of ssh keys in WSL [58]
+ o tests: make it possible to set executable extensions [58]
+ o tests: make sure checksrc runs on header files too
+ o tests: set LC_ALL=en_US.UTF-8 instead of blank in several tests [74]
+ o tests: use DoH feature for DoH tests [64]
+ o tests: use \r\n for log messages in WSL [58]
+ o tool_operate: fix mem leak when failed config parse [98]
+ o travis: Fix error detection [97]
+ o travis: abandon coveralls, it is not reliable [57]
+ o travis: build ngtcp2 with --enable-lib-only [32]
+ o travis: export the CC/CXX variables when set [34]
+ o vtls: make BearSSL possible to set with CURL_SSL_BACKEND [72]
+ o winbuild: Define CARES_STATICLIB when WITH_CARES=static [59]
+ o winbuild: Document CURL_STATICLIB requirement for static libcurl [88]
 
 This release includes the following known bugs:
 
@@ -135,85 +149,137 @@ This release includes the following known bugs:
 This release would not have looked like this without help, code, reports and
 advice from friends like these:
 
-  Akhil Kedia, Alan Jenkins, Anatol Belski, Bernhard M. Wiedemann,
-  Brian Childs, canavan at github, Chris Carlmar, Dan Fandrich,
-  Daniel Stenberg, Edward Thomson, Gisle Vanem, GwanYeong Kim,
-  Helmut K. C. Tessarek, Joel Depooter, jonrumsey at github, Kai Engert,
-  Kamil Dudka, Kevin Ji, Lloyd Fournier, Mahmoud Samir Fayed, Marcel Raad,
-  Martin Kepplinger, Max Dymond, Michael Kaufmann, Nick Zitzmann, Paul Harris,
-  Phil Crump, Piotr Dobrogost, Ray Satiro, Richard Hsu, Ron Eldor,
-  Ryuichi KAWAMATA, Sergei Nikulov, Simon Warta, stootill at github,
-  Stuart Henderson, TheAssassin at github, Thomas Klausner, Travis Burtrum,
-  Vincas Razma, wyattoday at github,
-  (41 contributors)
+  3dyd on github, Anderson Sasaki, Andreas Falkenhahn, Andrew Ishchuk,
+  bdry on github, Bjoern Franke, Brian Carpenter, bxac on github,
+  Bylon2 on github, Christian Schmitz, Christopher Head, Christopher Reid,
+  Christoph M. Becker, Cynthia Coan, Dan Fandrich, Daniel Gustafsson,
+  Daniel Stenberg, David Benjamin, Emil Engler, Fernando Muñoz, Frank Gevaerts,
+  Geeknik Labs, Gergely Nagy, Gisle Vanem, JanB on github, Javier Blazquez,
+  Jeff Mears, Jeffrey Walton, John Schroeder, Kamil Dudka,
+  kouzhudong on github, Kunal Ekawde, Leonardo Taccari, Marc Aldorasi,
+  Marcel Raad, marc-groundctl on github, Marc Hörsken, Maros Priputen,
+  Massimiliano Fantuzzi, Max Kellermann, Melissa Mears, Michael Forney,
+  Michael Vittiglio, Mohammad Hasbini, Niall O'Reilly, Paul Groke,
+  Paul Hoffman, Paul Joyce, Paulo Roberto Tomasi, Pavel Löbl, Pavel Pavlov,
+  Peter Wu, Ram Krushna Mishra, Ray Satiro, Richard Alcock, Richard Bowker,
+  Rickard Hallerbäck, Santino Keupp, sayrer on github, Shailesh Kapse,
+  Simon Warta, SLDiggie on github, Steve Holme, Tatsuhiro Tsujikawa,
+  Tom van der Woerdt, Victor Magierski, Vlastimil Ovčáčík, Wyatt O'Day,
+  Xiang Xiao, Xiaoyin Liu,
+  (70 contributors)
 
         Thanks! (and sorry if I forgot to mention someone)
 
 References to bug reports and discussions on issues:
 
- [1] = https://curl.haxx.se/bug/?i=1403
- [2] = https://curl.haxx.se/bug/?i=1435
- [3] = https://curl.haxx.se/bug/?i=1439
- [4] = https://curl.haxx.se/bug/?i=1392
- [5] = https://curl.haxx.se/bug/?i=1427
- [6] = https://curl.haxx.se/bug/?i=1440
- [7] = https://curl.haxx.se/bug/?i=1432
- [8] = https://curl.haxx.se/bug/?i=1420
- [9] = https://curl.haxx.se/bug/?i=1446
- [10] = https://curl.haxx.se/bug/?i=1447
- [11] = https://bugzilla.redhat.com/1444860
- [12] = https://curl.haxx.se/bug/?i=1414
- [13] = https://curl.haxx.se/bug/?i=1451
- [14] = https://curl.haxx.se/mail/lib-2017-04/0127.html
- [15] = https://github.com/curl/curl/issues/1441#issuecomment-297689856
- [16] = https://curl.haxx.se/bug/?i=1460
- [17] = https://curl.haxx.se/bug/?i=1449
- [18] = https://curl.haxx.se/bug/?i=1453
- [19] = https://curl.haxx.se/bug/?i=1389
- [20] = https://curl.haxx.se/bug/?i=1452
- [21] = https://curl.haxx.se/bug/?i=1452
- [22] = https://curl.haxx.se/bug/?i=1464
- [23] = https://curl.haxx.se/bug/?i=1466
- [24] = https://curl.haxx.se/bug/?i=1463
- [25] = https://curl.haxx.se/bug/?i=1471
- [26] = https://curl.haxx.se/bug/?i=1469
- [27] = https://curl.haxx.se/bug/?i=1315
- [28] = https://curl.haxx.se/bug/?i=1465
- [29] = https://curl.haxx.se/bug/?i=1472
- [30] = https://curl.haxx.se/bug/?i=1475
- [31] = https://curl.haxx.se/bug/?i=1481
- [32] = https://curl.haxx.se/bug/?i=1474
- [33] = https://curl.haxx.se/bug/?i=1400
- [34] = https://curl.haxx.se/bug/?i=1487
- [35] = https://curl.haxx.se/bug/?i=1450
- [36] = https://curl.haxx.se/bug/?i=1490
- [37] = https://curl.haxx.se/bug/?i=1253
- [38] = https://curl.haxx.se/bug/?i=1479
- [39] = https://curl.haxx.se/bug/?i=1488
- [40] = https://curl.haxx.se/bug/?i=1461
- [41] = https://curl.haxx.se/bug/?i=1504
- [42] = https://curl.haxx.se/bug/?i=878
- [43] = https://curl.haxx.se/bug/?i=1489
- [44] = https://curl.haxx.se/bug/?i=1321
- [45] = https://curl.haxx.se/bug/?i=1499
- [46] = https://curl.haxx.se/bug/?i=1516
- [47] = https://curl.haxx.se/bug/?i=1294
- [48] = https://curl.haxx.se/bug/?i=1208
- [49] = https://curl.haxx.se/bug/?i=1516
- [50] = https://curl.haxx.se/bug/?i=1522
- [51] = https://curl.haxx.se/bug/?i=1524
- [52] = https://curl.haxx.se/bug/?i=846
- [53] = https://curl.haxx.se/bug/?i=1528
- [54] = https://curl.haxx.se/bug/?i=1530
- [55] = https://curl.haxx.se/bug/?i=1529
- [56] = https://curl.haxx.se/bug/?i=1532
- [57] = https://curl.haxx.se/bug/?i=1536
- [58] = https://curl.haxx.se/bug/?i=1539
- [59] = https://curl.haxx.se/bug/?i=1543
- [60] = https://curl.haxx.se/bug/?i=1550
- [61] = https://curl.haxx.se/mail/lib-2017-06/0017.html
- [62] = https://curl.haxx.se/bug/?i=1557
- [63] = https://curl.haxx.se/bug/?i=1541
- [64] = https://curl.haxx.se/bug/?i=1561
- [65] = https://curl.haxx.se/docs/adv_20170614.html
- [66] = https://curl.haxx.se/mail/lib-2017-06/0038.html
+ [1] = https://curl.haxx.se/bug/?i=4567
+ [2] = https://curl.haxx.se/bug/?i=4565
+ [3] = https://curl.haxx.se/bug/?i=3704
+ [4] = https://curl.haxx.se/bug/?i=4570
+ [5] = https://curl.haxx.se/bug/?i=4525
+ [6] = https://curl.haxx.se/bug/?i=4604
+ [7] = https://curl.haxx.se/bug/?i=4614
+ [8] = https://curl.haxx.se/bug/?i=4612
+ [9] = https://curl.haxx.se/bug/?i=4609
+ [10] = https://curl.haxx.se/bug/?i=4606
+ [11] = https://curl.haxx.se/bug/?i=4598
+ [12] = https://curl.haxx.se/bug/?i=4600
+ [13] = https://curl.haxx.se/bug/?i=4590
+ [14] = https://curl.haxx.se/bug/?i=4596
+ [15] = https://curl.haxx.se/bug/?i=4594
+ [16] = https://curl.haxx.se/bug/?i=4588
+ [17] = https://curl.haxx.se/bug/?i=4571
+ [18] = https://curl.haxx.se/bug/?i=4585
+ [19] = https://curl.haxx.se/bug/?i=4545
+ [20] = https://curl.haxx.se/bug/?i=4575
+ [21] = https://curl.haxx.se/bug/?i=4554
+ [22] = https://curl.haxx.se/bug/?i=4563
+ [23] = https://curl.haxx.se/bug/?i=4576
+ [24] = https://curl.haxx.se/bug/?i=4556
+ [25] = https://curl.haxx.se/bug/?i=4549
+ [26] = https://curl.haxx.se/bug/?i=4624
+ [27] = https://curl.haxx.se/bug/?i=4593
+ [28] = https://curl.haxx.se/bug/?i=4628
+ [29] = https://curl.haxx.se/bug/?i=4500
+ [30] = https://curl.haxx.se/bug/?i=4618
+ [31] = https://curl.haxx.se/bug/?i=4543
+ [32] = https://curl.haxx.se/bug/?i=4646
+ [33] = https://curl.haxx.se/bug/?i=4645
+ [34] = https://curl.haxx.se/bug/?i=4637
+ [35] = https://curl.haxx.se/bug/?i=2051
+ [36] = https://curl.haxx.se/bug/?i=4599
+ [37] = https://curl.haxx.se/bug/?i=4597
+ [38] = https://curl.haxx.se/bug/?i=4418
+ [39] = https://curl.haxx.se/bug/?i=4633
+ [40] = https://curl.haxx.se/bug/?i=4607
+ [41] = https://curl.haxx.se/bug/?i=4492
+ [42] = https://curl.haxx.se/bug/?i=4668
+ [43] = https://curl.haxx.se/bug/?i=4663
+ [44] = https://curl.haxx.se/bug/?i=4662
+ [45] = https://curl.haxx.se/bug/?i=4665
+ [46] = https://curl.haxx.se/mail/lib-2019-11/0094.html
+ [47] = https://curl.haxx.se/bug/?i=4644
+ [48] = https://curl.haxx.se/mail/lib-2019-12/0007.html
+ [49] = https://curl.haxx.se/bug/?i=4658
+ [50] = https://curl.haxx.se/bug/?i=2425
+ [51] = https://curl.haxx.se/bug/?i=4550
+ [52] = https://curl.haxx.se/bug/?i=4636
+ [53] = https://curl.haxx.se/bug/?i=4152
+ [54] = https://curl.haxx.se/bug/?i=4649
+ [55] = https://curl.haxx.se/bug/?i=3935
+ [56] = https://curl.haxx.se/bug/?i=4301
+ [57] = https://curl.haxx.se/bug/?i=4694
+ [58] = https://curl.haxx.se/bug/?i=3899
+ [59] = https://curl.haxx.se/bug/?i=4688
+ [60] = https://curl.haxx.se/bug/?i=4557
+ [61] = https://curl.haxx.se/bug/?i=4544
+ [62] = https://curl.haxx.se/bug/?i=4680
+ [63] = https://curl.haxx.se/bug/?i=4713
+ [64] = https://curl.haxx.se/bug/?i=4692
+ [65] = https://curl.haxx.se/bug/?i=4710
+ [66] = https://curl.haxx.se/bug/?i=4709
+ [67] = https://curl.haxx.se/bug/?i=4707
+ [68] = https://curl.haxx.se/bug/?i=4704
+ [69] = https://curl.haxx.se/bug/?i=4705
+ [70] = https://curl.haxx.se/bug/?i=4699
+ [71] = https://curl.haxx.se/bug/?i=4369
+ [72] = https://curl.haxx.se/bug/?i=4698
+ [73] = https://curl.haxx.se/bug/?i=4744
+ [74] = https://curl.haxx.se/bug/?i=4738
+ [75] = https://curl.haxx.se/bug/?i=4739
+ [76] = https://curl.haxx.se/bug/?i=4732
+ [77] = https://curl.haxx.se/bug/?i=4733
+ [78] = https://curl.haxx.se/bug/?i=4736
+ [79] = https://github.com/curl/curl/commit/5b22e1a#r36458547
+ [80] = https://curl.haxx.se/bug/?i=4730
+ [81] = https://curl.haxx.se/bug/?i=4731
+ [82] = https://curl.haxx.se/bug/?i=4728
+ [83] = https://curl.haxx.se/bug/?i=4725
+ [84] = https://curl.haxx.se/bug/?i=4683
+ [85] = https://curl.haxx.se/bug/?i=4296
+ [86] = https://curl.haxx.se/bug/?i=4261
+ [87] = https://curl.haxx.se/bug/?i=4262
+ [88] = https://curl.haxx.se/bug/?i=4721
+ [89] = https://curl.haxx.se/bug/?i=4714
+ [90] = https://curl.haxx.se/bug/?i=4720
+ [91] = https://curl.haxx.se/bug/?i=4715
+ [92] = https://curl.haxx.se/bug/?i=4735
+ [93] = https://curl.haxx.se/bug/?i=4775
+ [94] = https://github.com/curl/curl/pull/4717#issuecomment-570240785
+ [95] = https://curl.haxx.se/bug/?i=4771
+ [96] = https://curl.haxx.se/bug/?i=4768
+ [97] = https://curl.haxx.se/bug/?i=3730
+ [98] = https://curl.haxx.se/bug/?i=4767
+ [99] = https://curl.haxx.se/bug/?i=4756
+ [100] = https://curl.haxx.se/bug/?i=4758
+ [101] = https://curl.haxx.se/bug/?i=4751
+ [102] = https://curl.haxx.se/bug/?i=4745
+ [103] = https://curl.haxx.se/bug/?i=4772
+ [104] = https://curl.haxx.se/bug/?i=4781
+ [105] = https://curl.haxx.se/bug/?i=4786
+ [106] = https://curl.haxx.se/docs/CVE-2019-15601.html
+ [107] = https://curl.haxx.se/bug/?i=4787
+ [108] = https://curl.haxx.se/bug/?i=4785
+ [109] = https://curl.haxx.se/bug/?i=4783
+ [110] = https://curl.haxx.se/bug/?i=4790
+ [111] = https://curl.haxx.se/bug/?i=4788
