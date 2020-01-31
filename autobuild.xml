@@ -23,9 +23,9 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b029c6a05d55b8aa8480e6cb5568dbb9</string>
+              <string>ad36e80f5814cdf0de5c2aaa95acb59a</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/50553/457113/nghttp2-1.40.0.535632-darwin64-535632.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/50662/458323/nghttp2-1.40.0.535704-darwin64-535704.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin64</string>
@@ -59,9 +59,9 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a195b935f117e1630e65c801c119c6f2</string>
+              <string>20c64937db2e592e35fc97abe361ffc8</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/50555/457125/nghttp2-1.40.0.535632-windows-535632.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/50664/458331/nghttp2-1.40.0.535704-windows-535704.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -71,9 +71,9 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>31ed880caca548bac0faf8c7e4642dad</string>
+              <string>dc9f7a30c3dff75a277d06c3429e77e8</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/50554/457124/nghttp2-1.40.0.535632-windows64-535632.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/50663/458330/nghttp2-1.40.0.535704-windows64-535704.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -82,7 +82,7 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
         <key>source_type</key>
         <string>hg</string>
         <key>version</key>
-        <string>1.40.0.535632</string>
+        <string>1.40.0.535704</string>
       </map>
       <key>openssl</key>
       <map>
