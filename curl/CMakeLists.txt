@@ -160,7 +160,7 @@ option(HTTP_ONLY "disables all protocols except HTTP (This overrides all CURL_DI
 mark_as_advanced(HTTP_ONLY)
 option(CURL_DISABLE_FTP "disables FTP" OFF)
 mark_as_advanced(CURL_DISABLE_FTP)
-option(CURL_DISABLE_LDAP "disables LDAP" OFF)
+option(CURL_DISABLE_LDAP "disables LDAP" ON)
 mark_as_advanced(CURL_DISABLE_LDAP)
 option(CURL_DISABLE_TELNET "disables Telnet" OFF)
 mark_as_advanced(CURL_DISABLE_TELNET)
@@ -173,7 +173,7 @@ mark_as_advanced(CURL_DISABLE_TFTP)
 option(CURL_DISABLE_HTTP "disables HTTP" OFF)
 mark_as_advanced(CURL_DISABLE_HTTP)
 
-option(CURL_DISABLE_LDAPS "to disable LDAPS" OFF)
+option(CURL_DISABLE_LDAPS "to disable LDAPS" ON)
 mark_as_advanced(CURL_DISABLE_LDAPS)
 
 option(CURL_DISABLE_RTSP "to disable RTSP" OFF)
