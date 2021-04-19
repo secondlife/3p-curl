@@ -9,7 +9,7 @@
 .\" *
 .\" * This software is licensed as described in the file COPYING, which
 .\" * you should have received as part of this distribution. The terms
-.\" * are also available at https://curl.haxx.se/docs/copyright.html.
+.\" * are also available at https://curl.se/docs/copyright.html.
 .\" *
 .\" * You may opt to use, copy, modify, merge, publish, distribute and/or sell
 .\" * copies of the Software, and permit persons to whom the Software is
@@ -20,7 +20,7 @@
 .\" *
 .\" **************************************************************************
 .\"
-.TH CURLINFO_SIZE_DOWNLOAD 3 "May 06, 2017" "libcurl 7.54.1" "curl_easy_getinfo options"
+.TH CURLINFO_SIZE_DOWNLOAD 3 "November 04, 2020" "libcurl 7.76.1" "curl_easy_getinfo options"
 
 .SH NAME
 CURLINFO_SIZE_DOWNLOAD \- get the number of downloaded bytes
@@ -34,13 +34,16 @@ downloaded.  The amount is only for the latest transfer and will be reset
 again for each new transfer. This counts actual payload data, what's also
 commonly called body. All meta and header data are excluded and will not be
 counted in this number.
+
+\fICURLINFO_SIZE_DOWNLOAD_T(3)\fP is a newer replacement that returns a more
+sensible variable type.
 .SH PROTOCOLS
 All
 .SH EXAMPLE
 .nf
 CURL *curl = curl_easy_init();
 if(curl) {
-  curl_easy_setopt(curl, CURLOPT_URL, "http://example.com");
+  curl_easy_setopt(curl, CURLOPT_URL, "https://example.com");
 
   /* Perform the request */
   res = curl_easy_perform(curl);
@@ -61,3 +64,5 @@ Added in 7.4.1
 Returns CURLE_OK if the option is supported, and CURLE_UNKNOWN_OPTION if not.
 .SH "SEE ALSO"
 .BR curl_easy_getinfo "(3), " curl_easy_setopt "(3), "
+.BR CURLINFO_SIZE_DOWNLOAD_T "(3), "
+.BR CURLINFO_SIZE_UPLOAD_T "(3), "
