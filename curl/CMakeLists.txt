@@ -1247,12 +1247,13 @@ if(WIN32)
   set(CMAKE_RC_FLAGS "${CMAKE_RC_FLAGS} -DCURL_EMBED_MANIFEST")
 
   # Check if crypto functions in wincrypt.h are actually available
-  if(HAVE_WINCRYPT_H)
-    check_symbol_exists(CryptAcquireContext "${CURL_INCLUDES}" USE_WINCRYPT)
-  endif()
-  if(USE_WINCRYPT)
-    set(USE_WIN32_CRYPTO ON)
-  endif()
+  #if(HAVE_WINCRYPT_H)
+  #  check_symbol_exists(CryptAcquireContext "${CURL_INCLUDES}" USE_WINCRYPT)
+  #endif()
+  #if(USE_WINCRYPT)
+  #  set(USE_WIN32_CRYPTO ON)
+  #endif()
+  set(USE_WIN32_CRYPTO OFF)
 
   # Link required libraries for USE_WIN32_CRYPTO or USE_SCHANNEL
   if(USE_WIN32_CRYPTO OR USE_SCHANNEL)
