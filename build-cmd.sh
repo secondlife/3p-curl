@@ -221,7 +221,12 @@ pushd "$CURL_BUILD_DIR"
             # ln -sf "${stage}"/packages/lib/release/*.dylib tests/Resources/
             # LDFLAGS="-L../Resources/ -L\"$stage\"/packages/lib/release" \
 
-            cmake ../${CURL_SOURCE_DIR} -GXcode -DCMAKE_C_FLAGS:STRING="$opts" \
+            # -T buildsystem=1 is to work around an error in the upstream
+            # CMakeLists.txt that doesn't work with the Xcode "new build
+            # system." Possibly a newer version of curl will fix.
+            # https://stackoverflow.com/a/65474688
+            cmake ../${CURL_SOURCE_DIR} -G Xcode -T buildsystem=1 \
+                -DCMAKE_C_FLAGS:STRING="$opts" \
                 -DCMAKE_CXX_FLAGS:STRING="$opts" -D'BUILD_SHARED_LIBS:bool=off' \
                 -DENABLE_THREADED_RESOLVER:BOOL=ON \
                 -DCMAKE_USE_OPENSSL:BOOL=TRUE \
