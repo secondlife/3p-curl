@@ -30,6 +30,25 @@ source_environment_tempfile="$stage/source_environment.sh"
 "$autobuild" source_environment > "$source_environment_tempfile"
 . "$source_environment_tempfile"
 
+# Use msbuild.exe instead of devenv.com
+build_sln() {
+    local solution=$1
+    local config=$2
+    local proj="${3:-}"
+    local toolset="${AUTOBUILD_WIN_VSTOOLSET:-v143}"
+
+    # e.g. config = "Release|$AUTOBUILD_WIN_VSPLATFORM" per devenv.com convention
+    local -a confparts
+    IFS="|" read -ra confparts <<< "$config"
+
+    msbuild.exe \
+        "$(cygpath -w "$solution")" \
+        ${proj:+-t:"$proj"} \
+        -p:Configuration="${confparts[0]}" \
+        -p:Platform="${confparts[1]}" \
+        -p:PlatformToolset=$toolset
+}
+
 ZLIB_INCLUDE="${stage}"/packages/include/zlib-ng
 OPENSSL_INCLUDE="${stage}"/packages/include/openssl
 
@@ -121,7 +140,9 @@ pushd "$CURL_BUILD_DIR"
             packages="$(cygpath -m "$stage/packages")"
             load_vsvars
 
-            cmake ../${CURL_SOURCE_DIR} -G"$AUTOBUILD_WIN_CMAKE_GEN" -DCMAKE_C_FLAGS:STRING="$LL_BUILD_RELEASE" \
+            cmake ../${CURL_SOURCE_DIR} \
+                -G"$AUTOBUILD_WIN_CMAKE_GEN" -A"$AUTOBUILD_WIN_VSPLATFORM" \
+                -DCMAKE_C_FLAGS:STRING="$LL_BUILD_RELEASE" \
                 -DCMAKE_CXX_FLAGS:STRING="$LL_BUILD_RELEASE" \
                 -DENABLE_THREADED_RESOLVER:BOOL=ON \
                 -DCMAKE_USE_OPENSSL:BOOL=TRUE \
