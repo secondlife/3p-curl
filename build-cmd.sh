@@ -115,12 +115,11 @@ get_installable_version ()
     # Split version number on '.'.
     # Keep up to $2 version-number parts.
     # Rejoin them on '.' again and print.
-    # On Windows, change '\r\n' to plain '\n': the '\r' is NOT removed by
-    # bash, so it becomes part of the string contents, which confuses both
-    # scripted comparisons and human readers.
-    python -c "from ast import literal_eval
-print '.'.join(literal_eval(r'''$pydata''')['version'].split('.')[:${2:-}])" \
-        | tr -d '\r'
+    # On Windows, use -u to change '\r\n' to plain '\n': the '\r' is NOT
+    # removed by bash, so it becomes part of the string contents, which
+    # confuses both scripted comparisons and human readers.
+    python -uc "from ast import literal_eval
+print('.'.join(literal_eval(r'''$pydata''')['version'].split('.')[:${2:-}]))"
     set -x
 }
 
@@ -153,7 +152,7 @@ pushd "$CURL_BUILD_DIR"
 
             check_damage "$AUTOBUILD_PLATFORM"
 
-            build_sln "CURL.sln" "Release|$AUTOBUILD_WIN_VSPLATFORM" "Install"
+            build_sln "CURL.sln" "Release|$AUTOBUILD_WIN_VSPLATFORM" ## "Install"
             
             # conditionally run unit tests
             if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
@@ -163,18 +162,19 @@ pushd "$CURL_BUILD_DIR"
                 popd
             fi
 
-           # Stage archives
-           mkdir -p "${stage}/lib/release"
-           mv "${stage}"/lib/libcurl.lib "${stage}"/lib/release/libcurl.lib
+            # Stage archives
+            mkdir -p "${stage}/lib/release"
+            mv "lib/Release/libcurl.lib" "${stage}"/lib/release/
 
 #           # Stage curl.exe and provide .dll's it needs
-#           mkdir -p "${stage}"/bin
-            cp -af "${stage}"/packages/lib/release/*.dll "${stage}"/bin/
-            chmod +x-w "${stage}"/bin/*.dll   # correct package permissions
+            curldir="src/Release"
+##          mkdir -p "${stage}"/bin
+            cp -af "${stage}"/packages/lib/release/*.dll "$curldir/"
+            chmod +x-w "$curldir"/*.dll   # correct package permissions
 
             # Run 'curl' as a sanity check. Capture just the first line, which
             # should have versions of stuff.
-            curlout="$("${stage}"/bin/curl.exe --version | tr -d '\r' | head -n 1)"
+            curlout="$("$curldir/curl.exe" --version | tr -d '\r' | head -n 1)"
             # With -e in effect, any nonzero rc blows up the script --
             # so plain 'expr str : pattern' asserts that str contains pattern.
             # curl version - should be start of line
@@ -184,15 +184,7 @@ pushd "$CURL_BUILD_DIR"
             # OpenSSL/version
             expr "$curlout" : ".* OpenSSL/$(escape_dots "$(get_installable_version openssl 3)")" > /dev/null
             # zlib/version
-            expr "$curlout" : ".* zlib/$(escape_dots "$(get_installable_version zlib 3)")" > /dev/null
-
-#            # Clean
-#            pushd lib
-#                nmake /f Makefile.VC6 clean
-#            popd
-#            pushd src
-#                nmake /f Makefile.VC6 clean
-#            popd
+            expr "$curlout" : ".* zlib/$(escape_dots "$(get_installable_version zlib-ng 3)")" > /dev/null
         ;;
 
         darwin*)
