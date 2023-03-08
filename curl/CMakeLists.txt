@@ -1156,7 +1156,16 @@ function(TRANSFORM_MAKEFILE_INC INPUT_FILE OUTPUT_FILE)
 
 endfunction()
 
-add_subdirectory(docs)
+find_program(groff groff)
+find_program(roffit roffit)
+find_program(ps2pdf ps2pdf)
+##message(STATUS "groff='${groff}', roffit=${roffit}, ps2pdf=${ps2pdf}")
+# Making the docs subdirectory requires all three of the above commands.
+if (NOT (${groff}  STREQUAL "groff-NOTFOUND" OR
+         ${roffit} STREQUAL "roffit-NOTFOUND" OR
+         ${ps2pdf} STREQUAL "ps2pdf-NOTFOUND"))
+  add_subdirectory(docs)
+endif()
 add_subdirectory(lib)
 if(BUILD_CURL_EXE)
   add_subdirectory(src)
