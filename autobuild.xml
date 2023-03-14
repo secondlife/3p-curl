@@ -1,6 +1,5 @@
 <?xml version="1.0" ?>
-<llsd>
-<map>
+<llsd><map>
     <key>installables</key>
     <map>
       <key>nghttp2</key>
@@ -115,9 +114,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>142d0ad85d0ee4fbb673c9f9e414fbdd</string>
+              <string>b62d43b195a3fb29efbe5d1fb39ac9e5949bec50</string>
+              <key>hash_algorithm</key>
+              <string>sha1</string>
               <key>url</key>
-              <string>https://automated-builds-secondlife-com.s3.amazonaws.com/ct2/87769/805772/openssl-1.1.1l.563846-darwin64-563846.tar.bz2</string>
+              <string>https://github.com/secondlife/3p-openssl/releases/download/v1.1.1q-newzl/openssl-1.1.1q.14dae1d-darwin64-14dae1d.tar.zst</string>
             </map>
             <key>name</key>
             <string>darwin64</string>
@@ -139,9 +140,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d50ccfbf0c1d249392919e2c46ad8d5c</string>
+              <string>aefe420e192fa546701e9639a1225c905f5fd658</string>
+              <key>hash_algorithm</key>
+              <string>sha1</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/8339/33495/openssl-1.0.2l.508328-linux64-508328.tar.bz2</string>
+              <string>https://github.com/secondlife/3p-openssl/releases/download/v1.1.1q-newzl/openssl-1.1.1q.14dae1d-linux64-14dae1d.tar.zst</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -151,9 +154,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>55bd833166d03f1467e2c7f24fa9143e</string>
+              <string>fb16aa1dd4799e2c9f79a6edd9149bd29c8714eb</string>
+              <key>hash_algorithm</key>
+              <string>sha1</string>
               <key>url</key>
-              <string>https://automated-builds-secondlife-com.s3.amazonaws.com/ct2/87775/805841/openssl-1.1.1l.563846-windows-563846.tar.bz2</string>
+              <string>https://github.com/secondlife/3p-openssl/releases/download/v1.1.1q-newzl/openssl-1.1.1q.14dae1d-windows-14dae1d.tar.zst</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -163,16 +168,18 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6fefc60f68882fc6b246521b696497ab</string>
+              <string>47a7246e2cc237363b1666d7cce12c6f59f01e86</string>
+              <key>hash_algorithm</key>
+              <string>sha1</string>
               <key>url</key>
-              <string>https://automated-builds-secondlife-com.s3.amazonaws.com/ct2/87774/805833/openssl-1.1.1l.563846-windows64-563846.tar.bz2</string>
+              <string>https://github.com/secondlife/3p-openssl/releases/download/v1.1.1q-newzl/openssl-1.1.1q.14dae1d-windows64-14dae1d.tar.zst</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.1.1l.563846</string>
+        <string>1.1.1q.14dae1d</string>
       </map>
       <key>zlib-ng</key>
       <map>
@@ -387,5 +394,4 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
     <string>autobuild</string>
     <key>version</key>
     <string>1.3</string>
-  </map>
-</llsd>
+  </map></llsd>
