@@ -115,11 +115,12 @@ get_installable_version ()
     # Split version number on '.'.
     # Keep up to $2 version-number parts.
     # Rejoin them on '.' again and print.
-    # On Windows, use -u to change '\r\n' to plain '\n': the '\r' is NOT
-    # removed by bash, so it becomes part of the string contents, which
-    # confuses both scripted comparisons and human readers.
-    python -uc "from ast import literal_eval
-print('.'.join(literal_eval(r'''$pydata''')['version'].split('.')[:${2:-}]))"
+    # On Windows, use sys.stdout.buffer.write() to avoid appending '\r\n': the
+    # '\r' is NOT removed by bash, so it becomes part of the string contents,
+    # which confuses both scripted comparisons and human readers.
+    python -c "from ast import literal_eval
+import sys
+sys.stdout.buffer.write('.'.join(literal_eval(r'''$pydata''')['version'].split('.')[:${2:-}]))"
     set -x
 }
 
