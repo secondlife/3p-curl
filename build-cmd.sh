@@ -120,7 +120,7 @@ get_installable_version ()
     # which confuses both scripted comparisons and human readers.
     python -c "from ast import literal_eval
 import sys
-sys.stdout.buffer.write('.'.join(literal_eval(r'''$pydata''')['version'].split('.')[:${2:-}]))"
+sys.stdout.buffer.write('.'.join(literal_eval(r'''$pydata''')['version'].split('.')[:${2:-}]).encode('utf-8'))"
     set -x
 }
 
