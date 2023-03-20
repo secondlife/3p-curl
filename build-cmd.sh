@@ -19,11 +19,10 @@ else
     autobuild="$AUTOBUILD"
 fi
 
-CURL_SOURCE_DIR="$(cd curl; pwd)"
-CURL_BUILD_DIR="$(cd build; pwd)"
-
 top="$(pwd)"
-stage="$(pwd)/stage"
+stage="$top/stage"
+CURL_SOURCE_DIR="$top/curl"
+CURL_BUILD_DIR="$top/build"
 
 # load autobuild provided shell functions and variables
 source_environment_tempfile="$stage/source_environment.sh"
@@ -141,7 +140,7 @@ pushd "$CURL_BUILD_DIR"
             packages="$(cygpath -m "$stage/packages")"
             load_vsvars
 
-            cmake "${CURL_SOURCE_DIR}" \
+            cmake "$(cygpath -m "${CURL_SOURCE_DIR}")" \
                 -G"$AUTOBUILD_WIN_CMAKE_GEN" -A"$AUTOBUILD_WIN_VSPLATFORM" \
                 -DCMAKE_C_FLAGS:STRING="$LL_BUILD_RELEASE" \
                 -DCMAKE_CXX_FLAGS:STRING="$LL_BUILD_RELEASE" \
