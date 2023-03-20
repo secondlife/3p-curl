@@ -55,7 +55,8 @@ OPENSSL_INCLUDE="${stage}"/packages/include/openssl
 [ -f "$ZLIB_INCLUDE"/zlib.h ] || fail "You haven't installed the zlib package yet."
 [ -f "$OPENSSL_INCLUDE"/ssl.h ] || fail "You haven't installed the openssl package yet."
 
-LIBCURL_VERSION_HEADER_DIR="${CURL_SOURCE_DIR}"/include/curl
+LIBCURL_HEADER_DIR="${CURL_SOURCE_DIR}"/include
+LIBCURL_VERSION_HEADER_DIR="LIBCURL_HEADER_DIR/curl"
 version=$(perl -ne 's/#define LIBCURL_VERSION "([^"]+)"/$1/ && print' "${LIBCURL_VERSION_HEADER_DIR}/curlver.h" | tr -d '\r' )
 build=${AUTOBUILD_BUILD_ID:=0}
 echo "${version}.${build}" > "${stage}/VERSION.txt"
@@ -162,6 +163,9 @@ pushd "$CURL_BUILD_DIR"
 
                 popd
             fi
+
+            # stage header files
+            cp -R "$LIBCURL_HEADER_DIR" "${stage}/"
 
             # Stage archives
             mkdir -p "${stage}/lib/release"
