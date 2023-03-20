@@ -19,8 +19,8 @@ else
     autobuild="$AUTOBUILD"
 fi
 
-CURL_SOURCE_DIR="curl"
-CURL_BUILD_DIR="build"
+CURL_SOURCE_DIR="$(cd curl; pwd)"
+CURL_BUILD_DIR="$(cd build; pwd)"
 
 top="$(pwd)"
 stage="$(pwd)/stage"
