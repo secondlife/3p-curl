@@ -141,7 +141,7 @@ pushd "$CURL_BUILD_DIR"
             packages="$(cygpath -m "$stage/packages")"
             load_vsvars
 
-            cmake ../${CURL_SOURCE_DIR} \
+            cmake "${CURL_SOURCE_DIR}" \
                 -G"$AUTOBUILD_WIN_CMAKE_GEN" -A"$AUTOBUILD_WIN_VSPLATFORM" \
                 -DCMAKE_C_FLAGS:STRING="$LL_BUILD_RELEASE" \
                 -DCMAKE_CXX_FLAGS:STRING="$LL_BUILD_RELEASE" \
@@ -222,7 +222,7 @@ pushd "$CURL_BUILD_DIR"
             # CMakeLists.txt that doesn't work with the Xcode "new build
             # system." Possibly a newer version of curl will fix.
             # https://stackoverflow.com/a/65474688
-            cmake ../${CURL_SOURCE_DIR} -G Xcode -T buildsystem=1 \
+            cmake "${CURL_SOURCE_DIR}" -G Xcode -T buildsystem=1 \
                 -DCMAKE_C_FLAGS:STRING="$opts" \
                 -DCMAKE_CXX_FLAGS:STRING="$opts" -D'BUILD_SHARED_LIBS:bool=off' \
                 -DENABLE_THREADED_RESOLVER:BOOL=ON \
@@ -321,7 +321,7 @@ pushd "$CURL_BUILD_DIR"
             # Release configure and build
             export LD_LIBRARY_PATH="${stage}"/packages/lib/release:"$saved_path"
 
-            cmake ../${CURL_SOURCE_DIR} -G"Unix Makefiles" \
+            cmake "${CURL_SOURCE_DIR}" -G"Unix Makefiles" \
                 -DCMAKE_C_FLAGS:STRING="$opts" -DCMAKE_CXX_FLAGS:STRING="$opts" \
                 -DENABLE_THREADED_RESOLVER:BOOL=ON \
                 -DCMAKE_USE_OPENSSL:BOOL=TRUE \
@@ -355,7 +355,7 @@ pushd "$CURL_BUILD_DIR"
         ;;
     esac
     mkdir -p "$stage/LICENSES"
-    cp ../"${CURL_SOURCE_DIR}"/COPYING "$stage/LICENSES/curl.txt"
+    cp "${CURL_SOURCE_DIR}"/COPYING "$stage/LICENSES/curl.txt"
 popd
 rm -rf "$CURL_BUILD_DIR"
 
