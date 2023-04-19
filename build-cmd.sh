@@ -29,6 +29,9 @@ source_environment_tempfile="$stage/source_environment.sh"
 "$autobuild" source_environment > "$source_environment_tempfile"
 . "$source_environment_tempfile"
 
+# remove_cxxstd
+source "$(dirname "$AUTOBUILD_VARIABLES_FILE")/functions"
+
 # Use msbuild.exe instead of devenv.com
 build_sln() {
     local solution=$1
@@ -193,6 +196,7 @@ pushd "$CURL_BUILD_DIR"
 
         darwin*)
             opts="${TARGET_OPTS:--arch $AUTOBUILD_CONFIGURE_ARCH $LL_BUILD_RELEASE}"
+            plainopts="$(remove_cxxstd $opts)"
 
             mkdir -p "$stage/lib/release"
             rm -rf Resources/ ../Resources tests/Resources/
@@ -222,7 +226,7 @@ pushd "$CURL_BUILD_DIR"
             # system." Possibly a newer version of curl will fix.
             # https://stackoverflow.com/a/65474688
             cmake "${CURL_SOURCE_DIR}" -G Xcode -T buildsystem=1 \
-                -DCMAKE_C_FLAGS:STRING="$opts" \
+                -DCMAKE_C_FLAGS:STRING="$plainopts" \
                 -DCMAKE_CXX_FLAGS:STRING="$opts" -D'BUILD_SHARED_LIBS:bool=off' \
                 -DENABLE_THREADED_RESOLVER:BOOL=ON \
                 -DCMAKE_USE_OPENSSL:BOOL=TRUE \
@@ -286,6 +290,7 @@ pushd "$CURL_BUILD_DIR"
 
             # Default target per --address-size
             opts="${TARGET_OPTS:--m$AUTOBUILD_ADDRSIZE $LL_BUILD_RELEASE}"
+            plainopts="$(remove_cxxstd $opts)"
 
             # Handle any deliberate platform targeting
             if [ -z "${TARGET_CPPFLAGS:-}" ]; then
@@ -321,7 +326,7 @@ pushd "$CURL_BUILD_DIR"
             export LD_LIBRARY_PATH="${stage}"/packages/lib/release:"$saved_path"
 
             cmake "${CURL_SOURCE_DIR}" -G"Unix Makefiles" \
-                -DCMAKE_C_FLAGS:STRING="$opts" -DCMAKE_CXX_FLAGS:STRING="$opts" \
+                -DCMAKE_C_FLAGS:STRING="$plainopts" -DCMAKE_CXX_FLAGS:STRING="$opts" \
                 -DENABLE_THREADED_RESOLVER:BOOL=ON \
                 -DCMAKE_USE_OPENSSL:BOOL=TRUE \
                 -DUSE_NGHTTP2:BOOL=TRUE \
