@@ -22,11 +22,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>46f3084a88d64eda66c4d5ce221bf7a98595d7e5</string>
+              <string>fff611030a34e78b3a88168f64e4e33aef117bc3</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-nghttp2/releases/download/v1.40.1-dev3.gfd43346-fd43346/nghttp2-darwin64-None.tar.zst</string>
+              <string>https://github.com/secondlife/3p-nghttp2/releases/download/v1.40.0.b1526c6/nghttp2-1.40.0.b1526c6-darwin64-b1526c6.tar.zst</string>
             </map>
             <key>name</key>
             <string>darwin64</string>
@@ -48,11 +48,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e2a187fe646b7668dd9fedc38806893ddbf150f5</string>
+              <string>5798b5f6c8579ad44f211a873c072ee8d3fd8c93</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-nghttp2/releases/download/v1.40.1-dev3.gfd43346-fd43346/nghttp2-linux64-None.tar.zst</string>
+              <string>https://github.com/secondlife/3p-nghttp2/releases/download/v1.40.0.b1526c6/nghttp2-1.40.0.b1526c6-linux64-b1526c6.tar.zst</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -62,11 +62,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3a668c11767c6695f8204d8788957d64c9074c12</string>
+              <string>ea16c2b825b69af75c3a64df9e3c24a9021026ca</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-nghttp2/releases/download/v1.40.1-dev3.gfd43346-fd43346/nghttp2-windows-None.tar.zst</string>
+              <string>https://github.com/secondlife/3p-nghttp2/releases/download/v1.40.0.b1526c6/nghttp2-1.40.0.b1526c6-windows-b1526c6.tar.zst</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -76,11 +76,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6c5bddf39890f06f48eca2335cc8e1cab02fc429</string>
+              <string>05aad7759519719a54a6100fddd35b69e57f2386</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-nghttp2/releases/download/v1.40.1-dev3.gfd43346-fd43346/nghttp2-windows64-None.tar.zst</string>
+              <string>https://github.com/secondlife/3p-nghttp2/releases/download/v1.40.0.b1526c6/nghttp2-1.40.0.b1526c6-windows64-b1526c6.tar.zst</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -89,7 +89,7 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
         <key>source_type</key>
         <string>hg</string>
         <key>version</key>
-        <string>None</string>
+        <string>1.40.0.b1526c6</string>
       </map>
       <key>openssl</key>
       <map>
