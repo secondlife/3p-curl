@@ -58,7 +58,7 @@ OPENSSL_INCLUDE="${stage}"/packages/include/openssl
 [ -f "$OPENSSL_INCLUDE"/ssl.h ] || fail "You haven't installed the openssl package yet."
 
 LIBCURL_HEADER_DIR="${CURL_SOURCE_DIR}"/include
-LIBCURL_VERSION_HEADER_DIR="LIBCURL_HEADER_DIR/curl"
+LIBCURL_VERSION_HEADER_DIR="$LIBCURL_HEADER_DIR/curl"
 version=$(perl -ne 's/#define LIBCURL_VERSION "([^"]+)"/$1/ && print' "${LIBCURL_VERSION_HEADER_DIR}/curlver.h" | tr -d '\r' )
 build=${AUTOBUILD_BUILD_ID:=0}
 echo "${version}.${build}" > "${stage}/VERSION.txt"
