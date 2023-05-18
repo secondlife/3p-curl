@@ -68,10 +68,10 @@ OPENSSL_INCLUDE="${stage}"/packages/include/openssl
 
 LIBCURL_HEADER_DIR="${CURL_SOURCE_DIR}"/include
 LIBCURL_VERSION_HEADER_DIR="$LIBCURL_HEADER_DIR/curl"
-version=$(perl -ne 's/#define LIBCURL_VERSION "([^"]+)"/$1/ && print' \
-          "$(cygpath -m "${LIBCURL_VERSION_HEADER_DIR}/curlver.h")")
+version="$(sed -nE 's/#define LIBCURL_VERSION "([^"]+)".*$/\1/p' \
+           "$(cygpath -m "${LIBCURL_VERSION_HEADER_DIR}/curlver.h")")"
 build=${AUTOBUILD_BUILD_ID:=0}
-echo "${version}.${build}" > "${stage}/VERSION.txt"
+echo "${version}-${build}" > "${stage}/VERSION.txt"
 
 # Restore all .sos
 restore_sos ()
