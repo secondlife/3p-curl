@@ -14,9 +14,18 @@ if [ -z "$AUTOBUILD" ] ; then
 fi
 
 if [ "$OSTYPE" = "cygwin" ] ; then
+    # need igncr so cygwin bash will trim both '\r\n' from $(command)
+    set -o igncr
     autobuild="$(cygpath -u $AUTOBUILD)"
 else
     autobuild="$AUTOBUILD"
+    # dummy to avoid tedious conditionals everywhere
+    function cygpath {
+        # pathname comes last after switches
+        local last
+        eval last=\$$#
+        echo "$last"
+    }
 fi
 
 top="$(pwd)"
@@ -59,7 +68,8 @@ OPENSSL_INCLUDE="${stage}"/packages/include/openssl
 
 LIBCURL_HEADER_DIR="${CURL_SOURCE_DIR}"/include
 LIBCURL_VERSION_HEADER_DIR="$LIBCURL_HEADER_DIR/curl"
-version=$(perl -ne 's/#define LIBCURL_VERSION "([^"]+)"/$1/ && print' "${LIBCURL_VERSION_HEADER_DIR}/curlver.h" | tr -d '\r' )
+version=$(perl -ne 's/#define LIBCURL_VERSION "([^"]+)"/$1/ && print'
+          "$(cygpath -m "${LIBCURL_VERSION_HEADER_DIR}/curlver.h")")
 build=${AUTOBUILD_BUILD_ID:=0}
 echo "${version}.${build}" > "${stage}/VERSION.txt"
 
@@ -181,7 +191,7 @@ pushd "$CURL_BUILD_DIR"
 
             # Run 'curl' as a sanity check. Capture just the first line, which
             # should have versions of stuff.
-            curlout="$("$curldir/curl.exe" --version | tr -d '\r' | head -n 1)"
+            curlout="$("$curldir/curl.exe" --version | head -n 1)"
             # With -e in effect, any nonzero rc blows up the script --
             # so plain 'expr str : pattern' asserts that str contains pattern.
             # curl version - should be start of line
