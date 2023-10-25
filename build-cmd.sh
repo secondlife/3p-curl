@@ -14,21 +14,51 @@ if [ -z "$AUTOBUILD" ] ; then
 fi
 
 if [ "$OSTYPE" = "cygwin" ] ; then
+    # need igncr so cygwin bash will trim both '\r\n' from $(command)
+    set -o igncr
     autobuild="$(cygpath -u $AUTOBUILD)"
 else
     autobuild="$AUTOBUILD"
+    # dummy to avoid tedious conditionals everywhere
+    function cygpath {
+        # pathname comes last after switches
+        local last
+        eval last=\$$#
+        echo "$last"
+    }
 fi
 
-CURL_SOURCE_DIR="curl"
-CURL_BUILD_DIR="build"
-
 top="$(pwd)"
-stage="$(pwd)/stage"
+stage="$top/stage"
+CURL_SOURCE_DIR="$top/curl"
+CURL_BUILD_DIR="$top/build"
 
 # load autobuild provided shell functions and variables
 source_environment_tempfile="$stage/source_environment.sh"
 "$autobuild" source_environment > "$source_environment_tempfile"
 . "$source_environment_tempfile"
+
+# remove_cxxstd
+source "$(dirname "$AUTOBUILD_VARIABLES_FILE")/functions"
+
+# Use msbuild.exe instead of devenv.com
+build_sln() {
+    local solution=$1
+    local config=$2
+    local proj="${3:-}"
+    local toolset="${AUTOBUILD_WIN_VSTOOLSET:-v143}"
+
+    # e.g. config = "Release|$AUTOBUILD_WIN_VSPLATFORM" per devenv.com convention
+    local -a confparts
+    IFS="|" read -ra confparts <<< "$config"
+
+    msbuild.exe \
+        "$(cygpath -w "$solution")" \
+        ${proj:+-t:"$proj"} \
+        -p:Configuration="${confparts[0]}" \
+        -p:Platform="${confparts[1]}" \
+        -p:PlatformToolset=$toolset
+}
 
 ZLIB_INCLUDE="${stage}"/packages/include/zlib-ng
 OPENSSL_INCLUDE="${stage}"/packages/include/openssl
@@ -36,10 +66,12 @@ OPENSSL_INCLUDE="${stage}"/packages/include/openssl
 [ -f "$ZLIB_INCLUDE"/zlib.h ] || fail "You haven't installed the zlib package yet."
 [ -f "$OPENSSL_INCLUDE"/ssl.h ] || fail "You haven't installed the openssl package yet."
 
-LIBCURL_VERSION_HEADER_DIR="${CURL_SOURCE_DIR}"/include/curl
-version=$(perl -ne 's/#define LIBCURL_VERSION "([^"]+)"/$1/ && print' "${LIBCURL_VERSION_HEADER_DIR}/curlver.h" | tr -d '\r' )
+LIBCURL_HEADER_DIR="${CURL_SOURCE_DIR}"/include
+LIBCURL_VERSION_HEADER_DIR="$LIBCURL_HEADER_DIR/curl"
+version="$(sed -nE 's/#define LIBCURL_VERSION "([^"]+)".*$/\1/p' \
+           "$(cygpath -m "${LIBCURL_VERSION_HEADER_DIR}/curlver.h")")"
 build=${AUTOBUILD_BUILD_ID:=0}
-echo "${version}.${build}" > "${stage}/VERSION.txt"
+echo "${version}-${build}" > "${stage}/VERSION.txt"
 
 # Restore all .sos
 restore_sos ()
@@ -96,12 +128,12 @@ get_installable_version ()
     # Split version number on '.'.
     # Keep up to $2 version-number parts.
     # Rejoin them on '.' again and print.
-    # On Windows, change '\r\n' to plain '\n': the '\r' is NOT removed by
-    # bash, so it becomes part of the string contents, which confuses both
-    # scripted comparisons and human readers.
+    # On Windows, use sys.stdout.buffer.write() to avoid appending '\r\n': the
+    # '\r' is NOT removed by bash, so it becomes part of the string contents,
+    # which confuses both scripted comparisons and human readers.
     python -c "from ast import literal_eval
-print '.'.join(literal_eval(r'''$pydata''')['version'].split('.')[:${2:-}])" \
-        | tr -d '\r'
+import sys
+sys.stdout.buffer.write('.'.join(literal_eval(r'''$pydata''')['version'].split('.')[:${2:-}]).encode('utf-8'))"
     set -x
 }
 
@@ -121,7 +153,9 @@ pushd "$CURL_BUILD_DIR"
             packages="$(cygpath -m "$stage/packages")"
             load_vsvars
 
-            cmake ../${CURL_SOURCE_DIR} -G"$AUTOBUILD_WIN_CMAKE_GEN" -DCMAKE_C_FLAGS:STRING="$LL_BUILD_RELEASE" \
+            cmake "$(cygpath -m "${CURL_SOURCE_DIR}")" \
+                -G"$AUTOBUILD_WIN_CMAKE_GEN" -A"$AUTOBUILD_WIN_VSPLATFORM" \
+                -DCMAKE_C_FLAGS:STRING="$LL_BUILD_RELEASE" \
                 -DCMAKE_CXX_FLAGS:STRING="$LL_BUILD_RELEASE" \
                 -DENABLE_THREADED_RESOLVER:BOOL=ON \
                 -DCMAKE_USE_OPENSSL:BOOL=TRUE \
@@ -132,7 +166,7 @@ pushd "$CURL_BUILD_DIR"
 
             check_damage "$AUTOBUILD_PLATFORM"
 
-            build_sln "CURL.sln" "Release|$AUTOBUILD_WIN_VSPLATFORM" "Install"
+            build_sln "CURL.sln" "Release|$AUTOBUILD_WIN_VSPLATFORM" ## "Install"
             
             # conditionally run unit tests
             if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
@@ -142,18 +176,22 @@ pushd "$CURL_BUILD_DIR"
                 popd
             fi
 
-           # Stage archives
-           mkdir -p "${stage}/lib/release"
-           mv "${stage}"/lib/libcurl.lib "${stage}"/lib/release/libcurl.lib
+            # stage header files
+            cp -R "$LIBCURL_HEADER_DIR" "${stage}/"
+
+            # Stage archives
+            mkdir -p "${stage}/lib/release"
+            mv "lib/Release/libcurl.lib" "${stage}"/lib/release/
 
 #           # Stage curl.exe and provide .dll's it needs
-#           mkdir -p "${stage}"/bin
-            cp -af "${stage}"/packages/lib/release/*.dll "${stage}"/bin/
-            chmod +x-w "${stage}"/bin/*.dll   # correct package permissions
+            curldir="src/Release"
+##          mkdir -p "${stage}"/bin
+            cp -af "${stage}"/packages/lib/release/*.dll "$curldir/"
+            chmod +x-w "$curldir"/*.dll   # correct package permissions
 
             # Run 'curl' as a sanity check. Capture just the first line, which
             # should have versions of stuff.
-            curlout="$("${stage}"/bin/curl.exe --version | tr -d '\r' | head -n 1)"
+            curlout="$("$curldir/curl.exe" --version | head -n 1)"
             # With -e in effect, any nonzero rc blows up the script --
             # so plain 'expr str : pattern' asserts that str contains pattern.
             # curl version - should be start of line
@@ -163,19 +201,12 @@ pushd "$CURL_BUILD_DIR"
             # OpenSSL/version
             expr "$curlout" : ".* OpenSSL/$(escape_dots "$(get_installable_version openssl 3)")" > /dev/null
             # zlib/version
-            expr "$curlout" : ".* zlib/$(escape_dots "$(get_installable_version zlib 3)")" > /dev/null
-
-#            # Clean
-#            pushd lib
-#                nmake /f Makefile.VC6 clean
-#            popd
-#            pushd src
-#                nmake /f Makefile.VC6 clean
-#            popd
+            expr "$curlout" : ".* zlib/$(escape_dots "$(get_installable_version zlib-ng 3)")" > /dev/null
         ;;
 
         darwin*)
             opts="${TARGET_OPTS:--arch $AUTOBUILD_CONFIGURE_ARCH $LL_BUILD_RELEASE}"
+            plainopts="$(remove_cxxstd $opts)"
 
             mkdir -p "$stage/lib/release"
             rm -rf Resources/ ../Resources tests/Resources/
@@ -200,7 +231,12 @@ pushd "$CURL_BUILD_DIR"
             # ln -sf "${stage}"/packages/lib/release/*.dylib tests/Resources/
             # LDFLAGS="-L../Resources/ -L\"$stage\"/packages/lib/release" \
 
-            cmake ../${CURL_SOURCE_DIR} -GXcode -DCMAKE_C_FLAGS:STRING="$opts" \
+            # -T buildsystem=1 is to work around an error in the upstream
+            # CMakeLists.txt that doesn't work with the Xcode "new build
+            # system." Possibly a newer version of curl will fix.
+            # https://stackoverflow.com/a/65474688
+            cmake "${CURL_SOURCE_DIR}" -G Xcode -T buildsystem=1 \
+                -DCMAKE_C_FLAGS:STRING="$plainopts" \
                 -DCMAKE_CXX_FLAGS:STRING="$opts" -D'BUILD_SHARED_LIBS:bool=off' \
                 -DENABLE_THREADED_RESOLVER:BOOL=ON \
                 -DCMAKE_USE_OPENSSL:BOOL=TRUE \
@@ -264,6 +300,7 @@ pushd "$CURL_BUILD_DIR"
 
             # Default target per --address-size
             opts="${TARGET_OPTS:--m$AUTOBUILD_ADDRSIZE $LL_BUILD_RELEASE}"
+            plainopts="$(remove_cxxstd $opts)"
 
             # Handle any deliberate platform targeting
             if [ -z "${TARGET_CPPFLAGS:-}" ]; then
@@ -298,8 +335,8 @@ pushd "$CURL_BUILD_DIR"
             # Release configure and build
             export LD_LIBRARY_PATH="${stage}"/packages/lib/release:"$saved_path"
 
-            cmake ../${CURL_SOURCE_DIR} -G"Unix Makefiles" \
-                -DCMAKE_C_FLAGS:STRING="$opts" -DCMAKE_CXX_FLAGS:STRING="$opts" \
+            cmake "${CURL_SOURCE_DIR}" -G"Unix Makefiles" \
+                -DCMAKE_C_FLAGS:STRING="$plainopts" -DCMAKE_CXX_FLAGS:STRING="$opts" \
                 -DENABLE_THREADED_RESOLVER:BOOL=ON \
                 -DCMAKE_USE_OPENSSL:BOOL=TRUE \
                 -DUSE_NGHTTP2:BOOL=TRUE \
@@ -332,7 +369,7 @@ pushd "$CURL_BUILD_DIR"
         ;;
     esac
     mkdir -p "$stage/LICENSES"
-    cp ../"${CURL_SOURCE_DIR}"/COPYING "$stage/LICENSES/curl.txt"
+    cp "${CURL_SOURCE_DIR}"/COPYING "$stage/LICENSES/curl.txt"
 popd
 rm -rf "$CURL_BUILD_DIR"
 

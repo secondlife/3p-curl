@@ -59,7 +59,7 @@ if (IS_DIRECTORY ${PACKAGE_DIR})
         PATHS
             "${PACKAGE_DIR}/include"
         PATH_SUFFIXES
-            "zlib"
+            "zlib-ng"
     )
 
     if (${ZLIB_INCLUDE_DIRS} STREQUAL "ZLIB_INCLUDE_DIRS-NOTFOUND")
