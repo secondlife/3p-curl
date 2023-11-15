@@ -206,6 +206,8 @@ pushd "$CURL_BUILD_DIR"
 
         darwin*)
             opts="${TARGET_OPTS:--arch $AUTOBUILD_CONFIGURE_ARCH $LL_BUILD_RELEASE}"
+            # don't let CMake infer a -target different from -mminosx-version-min
+            opts="$(set_target $opts)"
             plainopts="$(remove_cxxstd $opts)"
 
             mkdir -p "$stage/lib/release"
