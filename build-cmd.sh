@@ -238,6 +238,7 @@ pushd "$CURL_BUILD_DIR"
             cmake "${CURL_SOURCE_DIR}" -G Xcode -T buildsystem=1 \
                 -DCMAKE_C_FLAGS:STRING="$plainopts" \
                 -DCMAKE_CXX_FLAGS:STRING="$opts" -D'BUILD_SHARED_LIBS:bool=off' \
+                -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13 \
                 -DENABLE_THREADED_RESOLVER:BOOL=ON \
                 -DCMAKE_USE_OPENSSL:BOOL=TRUE \
                 -DUSE_NGHTTP2:BOOL=TRUE \
