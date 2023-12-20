@@ -206,8 +206,8 @@ pushd "$CURL_BUILD_DIR"
 
         darwin*)
             opts="${TARGET_OPTS:--arch $AUTOBUILD_CONFIGURE_ARCH $LL_BUILD_RELEASE}"
+            opts="$(set_target $opts)"
             plainopts="$(remove_cxxstd $opts)"
-            opts="$(set_target "$opts")"
 
             mkdir -p "$stage/lib/release"
             rm -rf Resources/ ../Resources tests/Resources/
