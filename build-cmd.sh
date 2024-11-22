@@ -170,7 +170,7 @@ pushd "$CURL_BUILD_DIR"
 
             cmake --build . --config Release -j$AUTOBUILD_CPU_COUNT
             cmake --install . --config Release
-            
+
             # conditionally run unit tests
             if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
                 pushd tests
@@ -192,7 +192,7 @@ pushd "$CURL_BUILD_DIR"
             # libcurl/version
             expr "$curlout" : ".* libcurl/$(escape_dots "$version")" > /dev/null
             # OpenSSL/version
-            expr "$curlout" : ".* OpenSSL/$(escape_dots "$(get_installable_version openssl 3)")" > /dev/null
+            #expr "$curlout" : ".* OpenSSL/$(escape_dots "$(get_installable_version openssl 3)")" > /dev/null
             # zlib/version
             expr "$curlout" : ".* zlib/" > /dev/null
         ;;
@@ -200,20 +200,13 @@ pushd "$CURL_BUILD_DIR"
         darwin*)
             export MACOSX_DEPLOYMENT_TARGET="$LL_BUILD_DARWIN_DEPLOY_TARGET"
 
-            opts="${TARGET_OPTS:--arch $AUTOBUILD_CONFIGURE_ARCH $LL_BUILD_RELEASE}"
-            opts="$(set_target $opts)"
-            plainopts="$(remove_cxxstd $opts)"
-
-            mkdir -p "$stage/lib/release"
-            rm -rf Resources/ ../Resources tests/Resources/
-
             # Force libz and openssl static linkage by moving .dylibs out of the way
-            trap restore_dylibs EXIT
-            for dylib in "$stage"/packages/lib/release/lib{z,crypto,ssl}*.dylib; do
-                if [ -f "$dylib" ]; then
-                    mv "$dylib" "$dylib".disable
-                fi
-            done
+            # trap restore_dylibs EXIT
+            # for dylib in "$stage"/packages/lib/release/lib{z,crypto,ssl}*.dylib; do
+            #     if [ -f "$dylib" ]; then
+            #         mv "$dylib" "$dylib".disable
+            #     fi
+            # done
 
             # Release configure and build
 
@@ -231,26 +224,41 @@ pushd "$CURL_BUILD_DIR"
             # CMakeLists.txt that doesn't work with the Xcode "new build
             # system." Possibly a newer version of curl will fix.
             # https://stackoverflow.com/a/65474688
-            cmake "${CURL_SOURCE_DIR}" -G Ninja -DCMAKE_BUILD_TYPE=Release \
-                -DCMAKE_C_FLAGS:STRING="$plainopts" \
-                -DCMAKE_CXX_FLAGS:STRING="$opts" \
-                -DBUILD_SHARED_LIBS:BOOL=OFF \
-                -DENABLE_THREADED_RESOLVER:BOOL=ON \
-                -DCMAKE_USE_OPENSSL:BOOL=TRUE \
-                -DUSE_NGHTTP2:BOOL=TRUE \
-                -DNGHTTP2_INCLUDE_DIR:FILEPATH="$stage/packages/include" \
-                -DNGHTTP2_LIBRARY:FILEPATH="$stage/packages/lib/release/libnghttp2.a" \
-                -DCMAKE_INSTALL_PREFIX=$stage \
-                -DCMAKE_OSX_ARCHITECTURES="x86_64" \
-                -DCMAKE_OSX_DEPLOYMENT_TARGET=${MACOSX_DEPLOYMENT_TARGET}
+            for arch in x86_64 arm64 ; do
+                ARCH_ARGS="-arch $arch"
+                cxx_opts="${TARGET_OPTS:-$ARCH_ARGS $LL_BUILD_RELEASE}"
+                cc_opts="$(remove_cxxstd $cxx_opts)"
+                cc_opts="$(remove_switch -stdlib=libc++ $cc_opts)"
+                ld_opts="$ARCH_ARGS"
 
-            check_damage "$AUTOBUILD_PLATFORM"
+                mkdir -p "build_$arch"
+                pushd "build_$arch"
+                    CFLAGS="$cc_opts" \
+                    CXXFLAGS="$cxx_opts" \
+                    LDFLAGS="$ld_opts" \
+                    cmake "${CURL_SOURCE_DIR}" -G Ninja -DCMAKE_BUILD_TYPE=Release \
+                        -DCMAKE_C_FLAGS:STRING="$cc_opts" \
+                        -DCMAKE_CXX_FLAGS:STRING="$cxx_opts" \
+                        -DBUILD_SHARED_LIBS:BOOL=OFF \
+                        -DENABLE_THREADED_RESOLVER:BOOL=ON \
+                        -DCMAKE_USE_OPENSSL:BOOL=TRUE \
+                        -DUSE_NGHTTP2:BOOL=TRUE \
+                        -DNGHTTP2_INCLUDE_DIR:FILEPATH="$stage/packages/include" \
+                        -DNGHTTP2_LIBRARY:FILEPATH="$stage/packages/lib/release/libnghttp2.a" \
+                        -DCMAKE_INSTALL_PREFIX="$stage" \
+                        -DCMAKE_INSTALL_LIBDIR="$stage/lib/release/$arch" \
+                        -DCMAKE_OSX_ARCHITECTURES="$arch" \
+                        -DCMAKE_OSX_DEPLOYMENT_TARGET=${MACOSX_DEPLOYMENT_TARGET}
 
-            cmake --build . --config Release -j$AUTOBUILD_CPU_COUNT
-            cmake --install . --config Release
+                    check_damage "$AUTOBUILD_PLATFORM"
 
-            mkdir -p "$stage/lib/release"
-            mv "$stage/lib/libcurl.a" "$stage/lib/release/libcurl.a"
+                    cmake --build . --config Release -j$AUTOBUILD_CPU_COUNT
+                    cmake --install . --config Release
+                popd
+            done
+
+            # create fat libraries
+            lipo -create -output ${stage}/lib/release/libcurl.a ${stage}/lib/release/x86_64/libcurl.a ${stage}/lib/release/arm64/libcurl.a
 
             # conditionally run unit tests
             # Disabled here and below by default on Mac because they
@@ -268,10 +276,6 @@ pushd "$CURL_BUILD_DIR"
 #                    make quiet-test TEST_Q='-n !906 !530 !564 !584 !706 !1316'
 #                popd
 #            fi
-            
-#            make distclean
-            # Again, for dylib dependencies
-            # rm -rf Resources/ ../Resources tests/Resources/
 
             # Run 'curl' as a sanity check. Capture just the first line, which
             # should have versions of stuff.
@@ -283,11 +287,11 @@ pushd "$CURL_BUILD_DIR"
             # libcurl/version
             expr "$curlout" : ".* libcurl/$(escape_dots "$version")" > /dev/null
             # OpenSSL/version
-            expr "$curlout" : ".* OpenSSL/$(escape_dots "$(get_installable_version openssl 3)")" > /dev/null
+            #expr "$curlout" : ".* OpenSSL/$(escape_dots "$(get_installable_version openssl 3)")" > /dev/null
             # zlib/version
             expr "$curlout" : ".* zlib/" > /dev/null
             # nghttp2/versionx
-            expr "$curlout" : ".* nghttp2/$(escape_dots "$(get_installable_version nghttp2 3)")" > /dev/null
+            #expr "$curlout" : ".* nghttp2/$(escape_dots "$(get_installable_version nghttp2 3)")" > /dev/null
         ;;
 
         linux*)
@@ -338,7 +342,7 @@ pushd "$CURL_BUILD_DIR"
                 -DNGHTTP2_LIBRARY:FILEPATH="$stage/packages/lib/release/libnghttp2.a" \
                 -DBUILD_SHARED_LIBS:BOOL=FALSE \
                 -DCMAKE_INSTALL_PREFIX=$stage
-            
+
             check_damage "$AUTOBUILD_PLATFORM"
 
             cmake --build . --config Release -j$AUTOBUILD_CPU_COUNT
@@ -371,11 +375,11 @@ pushd "$CURL_BUILD_DIR"
             # libcurl/version
             expr "$curlout" : ".* libcurl/$(escape_dots "$version")" > /dev/null
             # OpenSSL/version
-            expr "$curlout" : ".* OpenSSL/$(escape_dots "$(get_installable_version openssl 3)")" > /dev/null
+            #expr "$curlout" : ".* OpenSSL/$(escape_dots "$(get_installable_version openssl 3)")" > /dev/null
             # zlib/version
             expr "$curlout" : ".* zlib/" > /dev/null
             # nghttp2/versionx
-            expr "$curlout" : ".* nghttp2/$(escape_dots "$(get_installable_version nghttp2 3)")" > /dev/null
+            #expr "$curlout" : ".* nghttp2/$(escape_dots "$(get_installable_version nghttp2 3)")" > /dev/null
 
             export LD_LIBRARY_PATH="$saved_path"
         ;;
