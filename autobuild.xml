@@ -11,65 +11,39 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3f3374a5d97803bf78acf20847c2900c7d68ce2b</string>
+              <string>dd0c79ac49e5e81cd153d44061c044d1db950fdc</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-nghttp2/releases/download/v1.62.1/nghttp2-1.62.1-darwin64-10329456052.tar.zst</string>
+              <string>https://github.com/secondlife/3p-nghttp2/releases/download/v1.64.0-r1/nghttp2-1.64.0-r1-darwin64-11965382595.tar.zst</string>
             </map>
             <key>name</key>
             <string>darwin64</string>
-          </map>
-          <key>linux</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>079c1a1bdb3ce1cda8ce3d7f75eeced3</string>
-              <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/9258/41585/nghttp2-1.25.0.509246-linux-509246.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>linux</string>
           </map>
           <key>linux64</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>bd9c211f9f53c04821f0ab0e1268a691926331b6</string>
+              <string>0ba810156e0f1ceee8fcc9f9115b91111323fabd</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-nghttp2/releases/download/v1.62.1/nghttp2-1.62.1-linux64-10329456052.tar.zst</string>
+              <string>https://github.com/secondlife/3p-nghttp2/releases/download/v1.64.0-r1/nghttp2-1.64.0-r1-linux64-11965382595.tar.zst</string>
             </map>
             <key>name</key>
             <string>linux64</string>
-          </map>
-          <key>windows</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>ea16c2b825b69af75c3a64df9e3c24a9021026ca</string>
-              <key>hash_algorithm</key>
-              <string>sha1</string>
-              <key>url</key>
-              <string>https://github.com/secondlife/3p-nghttp2/releases/download/v1.40.0.b1526c6/nghttp2-1.40.0.b1526c6-windows-b1526c6.tar.zst</string>
-            </map>
-            <key>name</key>
-            <string>windows</string>
           </map>
           <key>windows64</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c23e25a7c47f5233f543a90f1a9ccf4da9282379</string>
+              <string>182e03f4ef36eff082c571c33b13111d4cd6c8dd</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-nghttp2/releases/download/v1.62.1/nghttp2-1.62.1-windows64-10329456052.tar.zst</string>
+              <string>https://github.com/secondlife/3p-nghttp2/releases/download/v1.64.0-r1/nghttp2-1.64.0-r1-windows64-11965382595.tar.zst</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -83,7 +57,7 @@
         <string>Copyright (c) 2012, 2014, 2015, 2016 Tatsuhiro Tsujikawa
 Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
         <key>version</key>
-        <string>1.62.1</string>
+        <string>1.64.0-r1</string>
         <key>name</key>
         <string>nghttp2</string>
         <key>description</key>
@@ -95,82 +69,44 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
       <map>
         <key>platforms</key>
         <map>
-          <key>darwin</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>0a77d56769e6075957f614be6575423e</string>
-              <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/openssl_3p-update-openssl/rev/297168/arch/Darwin/installer/openssl-1.0.1h.297168-darwin-297168.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>darwin</string>
-          </map>
           <key>darwin64</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a20277991043a4a00fb8280a27a41fbd87c4b840</string>
+              <string>f6fdad42168b30932384310866642b072465af11</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-openssl/releases/download/v1.1.1w-r1/openssl-1.1.1w-darwin64-10329796904.tar.zst</string>
+              <string>https://github.com/secondlife/3p-openssl/releases/download/v1.1.1w-r2/openssl-1.1.1w-r2-darwin64-11965633361.tar.zst</string>
             </map>
             <key>name</key>
             <string>darwin64</string>
-          </map>
-          <key>linux</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>f46a601d60b7dbcfde32afc0cb64453e</string>
-              <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/p64_3p-openssl/rev/314227/arch/Linux/installer/openssl-1.0.1h.314227-linux-314227.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>linux</string>
           </map>
           <key>linux64</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0f2cd519431b11cacf85971c66c49e5b4d26c56f</string>
+              <string>7a5048c806b053768c461d6dbac854324a597ee0</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-openssl/releases/download/v1.1.1w-r1/openssl-1.1.1w-linux64-10329796904.tar.zst</string>
+              <string>https://github.com/secondlife/3p-openssl/releases/download/v1.1.1w-r2/openssl-1.1.1w-r2-linux64-11965633361.tar.zst</string>
             </map>
             <key>name</key>
             <string>linux64</string>
-          </map>
-          <key>windows</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>dbf2f69a7d73821dbe12288097298924e866e606</string>
-              <key>hash_algorithm</key>
-              <string>sha1</string>
-              <key>url</key>
-              <string>https://github.com/secondlife/3p-openssl/releases/download/v1.1.1q.de53f55/openssl-1.1.1q.de53f55-windows-de53f55.tar.zst</string>
-            </map>
-            <key>name</key>
-            <string>windows</string>
           </map>
           <key>windows64</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5e396eedf1492d18126b7281367123c1d64b89aa</string>
+              <string>3d16fa02ca44a6a1eeeb7c83d62af2dc8ef2e7e9</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-openssl/releases/download/v1.1.1w-r1/openssl-1.1.1w-windows64-10329796904.tar.zst</string>
+              <string>https://github.com/secondlife/3p-openssl/releases/download/v1.1.1w-r2/openssl-1.1.1w-r2-windows64-11965633361.tar.zst</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -183,7 +119,7 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
         <key>copyright</key>
         <string>Copyright (c) 1998-2011 The OpenSSL Project.  All rights reserved; Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)</string>
         <key>version</key>
-        <string>1.1.1w</string>
+        <string>1.1.1w-r2</string>
         <key>name</key>
         <string>openssl</string>
         <key>description</key>
@@ -198,11 +134,11 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3a6593c71c59ace76d1349483759fcde4b719a76</string>
+              <string>4d437afc7fc3988cf0c78ed05853a211cc6bf8b8</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v2.2.1-r2/zlib_ng-2.2.1-r2-darwin64-10324415171.tar.zst</string>
+              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v2.2.2-r1/zlib_ng-2.2.2-dev0.gcaa101e.d20241120-darwin64-11943461931.tar.zst</string>
             </map>
             <key>name</key>
             <string>darwin64</string>
@@ -212,39 +148,25 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>fbadeb0b8c771cb06c0055c9fab6d40c6764dacd</string>
+              <string>70c1d8728b85481bd42904c1213ed50264e77be1</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v2.2.1-r2/zlib_ng-2.2.1-r2-linux64-10324415171.tar.zst</string>
+              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v2.2.2-r1/zlib_ng-2.2.2-dev0.gcaa101e.d20241120-linux64-11943461931.tar.zst</string>
             </map>
             <key>name</key>
             <string>linux64</string>
-          </map>
-          <key>windows</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>2b5a50b0a3d31a07bc74cb77871ad195eb97c550</string>
-              <key>hash_algorithm</key>
-              <string>sha1</string>
-              <key>url</key>
-              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v1.2.11.zlib-ng.32fd361/zlib_ng-1.2.11.zlib-ng.32fd361-windows-32fd361.tar.zst</string>
-            </map>
-            <key>name</key>
-            <string>windows</string>
           </map>
           <key>windows64</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0094031715662be626f5106ff6c814f4fc3dacfa</string>
+              <string>f98c30b20120511ecceab8bf1b5eba048b10aade</string>
               <key>hash_algorithm</key>
               <string>sha1</string>
               <key>url</key>
-              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v2.2.1-r2/zlib_ng-2.2.1-r2-windows64-10324415171.tar.zst</string>
+              <string>https://github.com/secondlife/3p-zlib-ng/releases/download/v2.2.2-r1/zlib_ng-2.2.2-dev0.gcaa101e.d20241120-windows64-11943461931.tar.zst</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -257,7 +179,7 @@ Copyright (c) 2012, 2014, 2015, 2016 nghttp2 contributors</string>
         <key>copyright</key>
         <string>Copyright (C) 1995-2013 Jean-loup Gailly and Mark Adler</string>
         <key>version</key>
-        <string>2.2.1-r2</string>
+        <string>2.2.2-r1</string>
         <key>name</key>
         <string>zlib-ng</string>
         <key>canonical_repo</key>
